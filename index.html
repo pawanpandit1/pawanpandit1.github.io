@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Pawan Pandey | DevOps Engineer</title>
+<style>
+  :root{
+    --navy:#0a0e17;
+    --navy2:#0f1524;
+    --grey:#1a1f2e;
+    --grey2:#252b3d;
+    --crimson:#e0263a;
+    --crimson2:#ff3b4e;
+    --text:#e8eaf0;
+    --muted:#8b93a7;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html,body{
+    background:var(--navy);
+    color:var(--text);
+    font-family:'Segoe UI',Arial,sans-serif;
+    overflow-x:hidden;
+    scroll-behavior:smooth;
+  }
+  #webCanvas{
+    position:fixed;
+    top:0;left:0;
+    width:100%;height:100%;
+    z-index:0;
+    pointer-events:none;
+  }
+  .content{ position:relative; z-index:2; }
+
+  nav{
+    position:fixed;
+    top:0;left:0;right:0;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:18px 40px;
+    background:rgba(10,14,23,0.85);
+    backdrop-filter:blur(8px);
+    z-index:10;
+    border-bottom:1px solid rgba(224,38,58,0.2);
+  }
+  .logo{
+    font-weight:800;
+    font-size:1.3rem;
+    letter-spacing:1px;
+    color:var(--crimson2);
+    text-shadow:0 0 12px rgba(224,38,58,0.5);
+  }
+  .navlinks a{
+    color:var(--muted);
+    text-decoration:none;
+    margin-left:24px;
+    font-size:0.92rem;
+    transition:color 0.25s;
+  }
+  .navlinks a:hover{color:var(--crimson2);}
+
+  section{
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    padding:110px 20px 70px;
+    text-align:center;
+  }
+
+  /* HERO */
+  .hero-frame{
+    width:180px;height:180px;
+    border-radius:50%;
+    border:3px solid var(--crimson);
+    box-shadow:0 0 0 6px rgba(224,38,58,0.12), 0 0 45px rgba(224,38,58,0.35);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:linear-gradient(145deg,var(--grey),var(--grey2));
+    margin-bottom:26px;
+    position:relative;
+    overflow:hidden;
+  }
+  /*
+    ============================================================
+    PUT YOUR PHOTO HERE:
+    Replace the <div class="avatar-placeholder">...</div> below with:
+    <img src="your-photo.jpg" style="width:100%;height:100%;object-fit:cover;">
+    Host the image (GitHub repo /raw link, Imgur, etc.) and paste the URL in src.
+    ============================================================
+  */
+  .avatar-placeholder{
+    font-size:3.2rem;
+    font-weight:800;
+    color:var(--crimson2);
+    letter-spacing:2px;
+  }
+  .hero-frame::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:radial-gradient(circle at 30% 20%, rgba(255,59,78,0.15), transparent 60%);
+  }
+
+  h1{ font-size:2.7rem; letter-spacing:1px; margin-bottom:6px; }
+  h1 span{ color:var(--crimson2); }
+  .role-tag{
+    display:inline-block;
+    background:rgba(224,38,58,0.12);
+    color:var(--crimson2);
+    padding:6px 18px;
+    border-radius:20px;
+    font-size:0.85rem;
+    letter-spacing:1px;
+    margin-bottom:18px;
+    border:1px solid rgba(224,38,58,0.3);
+  }
+  .tagline{
+    color:var(--muted);
+    font-size:1.12rem;
+    max-width:600px;
+    margin-bottom:30px;
+    line-height:1.6;
+  }
+  .cta-row{ display:flex; gap:16px; flex-wrap:wrap; justify-content:center; }
+  .btn{
+    padding:13px 28px;
+    border-radius:6px;
+    font-weight:600;
+    font-size:0.95rem;
+    text-decoration:none;
+    cursor:pointer;
+    transition:transform 0.2s, box-shadow 0.2s;
+    border:none;
+    color:inherit;
+    display:inline-block;
+  }
+  .btn-primary{
+    background:var(--crimson);
+    color:#fff;
+    box-shadow:0 4px 20px rgba(224,38,58,0.4);
+  }
+  .btn-primary:hover{ transform:translateY(-2px); box-shadow:0 8px 26px rgba(224,38,58,0.55); }
+  .btn-outline{
+    background:transparent;
+    color:var(--text);
+    border:1px solid var(--grey2);
+  }
+  .btn-outline:hover{ border-color:var(--crimson2); color:var(--crimson2); }
+
+  h2.section-title{ font-size:2.1rem; margin-bottom:8px; }
+  h2.section-title span{ color:var(--crimson2); }
+  .section-sub{ color:var(--muted); margin-bottom:50px; max-width:640px; }
+
+  /* ABOUT / SKILLS */
+  .skills-wrap{ max-width:900px; width:100%; text-align:left; }
+  .skill-category{
+    background:var(--grey);
+    border:1px solid var(--grey2);
+    border-radius:12px;
+    padding:22px 26px;
+    margin-bottom:18px;
+    transition:border-color 0.25s;
+  }
+  .skill-category:hover{ border-color:var(--crimson); }
+  .skill-category h4{
+    color:var(--crimson2);
+    font-size:0.95rem;
+    letter-spacing:0.5px;
+    margin-bottom:12px;
+    text-transform:uppercase;
+  }
+  .chip-row{ display:flex; flex-wrap:wrap; gap:8px; }
+  .chip{
+    background:var(--grey2);
+    color:var(--text);
+    padding:6px 14px;
+    border-radius:20px;
+    font-size:0.85rem;
+  }
+
+  /* PROJECTS */
+  .projects-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:26px;
+    max-width:1020px;
+    width:100%;
+  }
+  .project-card{
+    background:linear-gradient(160deg,var(--grey),var(--navy2));
+    border:1px solid var(--grey2);
+    border-radius:14px;
+    padding:26px;
+    text-align:left;
+    cursor:pointer;
+    position:relative;
+    overflow:hidden;
+    transition:transform 0.25s, border-color 0.25s;
+  }
+  .project-card:hover{ transform:translateY(-6px); border-color:var(--crimson); }
+  .project-card .date{ color:var(--muted); font-size:0.75rem; margin-bottom:6px; }
+  .project-card h3{ margin-bottom:10px; font-size:1.15rem; }
+  .project-card ul{ color:var(--muted); font-size:0.87rem; line-height:1.55; margin:0 0 14px 18px; }
+  .tag{
+    display:inline-block;
+    font-size:0.72rem;
+    background:rgba(224,38,58,0.12);
+    color:var(--crimson2);
+    padding:4px 10px;
+    border-radius:20px;
+    margin-right:6px;
+    margin-bottom:6px;
+  }
+  .shoot-hint{ font-size:0.78rem; color:var(--muted); margin-top:10px; opacity:0.7; }
+
+  /* TIMELINE (education / achievements / certs) */
+  .timeline{ max-width:760px; width:100%; text-align:left; }
+  .timeline-item{
+    background:var(--grey);
+    border:1px solid var(--grey2);
+    border-left:3px solid var(--crimson);
+    border-radius:10px;
+    padding:20px 24px;
+    margin-bottom:16px;
+    transition:transform 0.2s, border-color 0.2s;
+  }
+  .timeline-item:hover{ transform:translateX(4px); border-color:var(--crimson2); }
+  .timeline-item .row{ display:flex; justify-content:space-between; flex-wrap:wrap; gap:6px; }
+  .timeline-item h4{ font-size:1.02rem; }
+  .timeline-item .meta{ color:var(--muted); font-size:0.8rem; }
+  .timeline-item p{ color:var(--muted); font-size:0.87rem; margin-top:8px; line-height:1.5; }
+  .timeline-item a{ color:var(--crimson2); text-decoration:none; font-size:0.82rem; }
+  .timeline-item a:hover{ text-decoration:underline; }
+
+  /* CONTACT */
+  .contact-row{ display:flex; gap:18px; flex-wrap:wrap; justify-content:center; margin-top:10px; }
+  footer{
+    text-align:center;
+    padding:26px;
+    color:var(--muted);
+    font-size:0.85rem;
+    border-top:1px solid rgba(224,38,58,0.15);
+  }
+
+  /* web-shoot animation elements */
+  .web-shot{
+    position:fixed;
+    width:6px;height:6px;
+    border-radius:50%;
+    background:radial-gradient(circle,#fff,var(--crimson2));
+    box-shadow:0 0 10px 2px var(--crimson2);
+    z-index:999;
+    pointer-events:none;
+  }
+  .web-line{
+    position:fixed;
+    height:2px;
+    background:linear-gradient(90deg, rgba(224,38,58,0), var(--crimson2));
+    transform-origin:left center;
+    z-index:998;
+    pointer-events:none;
+    opacity:0.85;
+  }
+
+  @media(max-width:600px){
+    h1{ font-size:2rem; }
+    nav{ padding:14px 18px; }
+    .navlinks a{ margin-left:12px; font-size:0.8rem; }
+    .skill-category{ padding:18px; }
+    .timeline-item{ padding:16px 18px; }
+  }
+</style>
+</head>
+<body>
+
+<canvas id="webCanvas"></canvas>
+
+<nav>
+  <div class="logo">&lt;PawanPandey/&gt;</div>
+  <div class="navlinks">
+    <a href="#about">Skills</a>
+    <a href="#projects">Projects</a>
+    <a href="#credentials">Credentials</a>
+    <a href="#education">Education</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<div class="content">
+
+  <section id="hero">
+    <div class="hero-frame">
+      <div class="avatar-placeholder">PP</div>
+    </div>
+    <div class="role-tag">DEVOPS & CLOUD ENGINEER</div>
+    <h1>Hi, I'm <span>Pawan Pandey</span></h1>
+    <p class="tagline">I build and automate infrastructure — CI/CD pipelines, containerized deployments, and cloud systems that just work. Currently sharpening skills in Docker, Kubernetes, AWS, and Linux, with a strong DSA foundation in C++ underneath it all.</p>
+    <div class="cta-row">
+      <a class="btn btn-primary" href="#projects">View Projects</a>
+      <a class="btn btn-outline" href="#contact">Get In Touch</a>
+    </div>
+  </section>
+
+  <section id="about">
+    <h2 class="section-title">Skills & <span>Tools</span></h2>
+    <p class="section-sub">The stack I use to build, containerize, and ship infrastructure.</p>
+    <div class="skills-wrap">
+      <div class="skill-category">
+        <h4>DevOps & Cloud</h4>
+        <div class="chip-row">
+          <span class="chip">Docker</span>
+          <span class="chip">Kubernetes</span>
+          <span class="chip">Jenkins</span>
+          <span class="chip">GitHub Actions</span>
+          <span class="chip">AWS EC2</span>
+          <span class="chip">AWS S3</span>
+          <span class="chip">Linux</span>
+        </div>
+      </div>
+      <div class="skill-category">
+        <h4>Languages</h4>
+        <div class="chip-row">
+          <span class="chip">C++</span>
+          <span class="chip">Python</span>
+          <span class="chip">C</span>
+          <span class="chip">SQL</span>
+        </div>
+      </div>
+      <div class="skill-category">
+        <h4>Web Technologies</h4>
+        <div class="chip-row">
+          <span class="chip">HTML</span>
+          <span class="chip">CSS</span>
+        </div>
+      </div>
+      <div class="skill-category">
+        <h4>Security Tools</h4>
+        <div class="chip-row">
+          <span class="chip">Nmap</span>
+          <span class="chip">Nessus</span>
+          <span class="chip">OpenVAS</span>
+        </div>
+      </div>
+      <div class="skill-category">
+        <h4>Core Concepts</h4>
+        <div class="chip-row">
+          <span class="chip">Data Structures & Algorithms</span>
+          <span class="chip">OOP</span>
+          <span class="chip">Operating Systems</span>
+          <span class="chip">Computer Networks</span>
+          <span class="chip">DBMS</span>
+        </div>
+      </div>
+      <div class="skill-category">
+        <h4>Soft Skills</h4>
+        <div class="chip-row">
+          <span class="chip">Problem-Solving</span>
+          <span class="chip">Critical Thinking</span>
+          <span class="chip">Attention to Detail</span>
+          <span class="chip">Continuous Learning</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="projects">
+    <h2 class="section-title">My <span>Projects</span></h2>
+    <p class="section-sub">Click a card — it'll shoot a web across the screen before swinging you to the link.</p>
+    <div class="projects-grid">
+      <div class="project-card" data-link="https://github.com/pawanpandit1">
+        <div class="date">May 2026</div>
+        <h3>Kubernetes-Based CI/CD Deployment Pipeline</h3>
+        <ul>
+          <li>Designed and implemented an automated CI/CD pipeline using Jenkins and GitHub Actions.</li>
+          <li>Containerized applications with Docker and deployed them on Kubernetes clusters.</li>
+          <li>Automated build, test, and deployment workflows in Linux, including rolling updates and service networking.</li>
+        </ul>
+        <span class="tag">Jenkins</span><span class="tag">Docker</span><span class="tag">GitHub Actions</span>
+        <div class="shoot-hint">Click to swing over →</div>
+      </div>
+      <div class="project-card" data-link="https://github.com/pawanpandit1">
+        <div class="date">May 2026</div>
+        <h3>AWS Static Website Hosting Infrastructure</h3>
+        <ul>
+          <li>Deployed a static web application using AWS EC2 and Amazon S3.</li>
+          <li>Configured Linux-based cloud infrastructure for hosting and deployment.</li>
+          <li>Managed Git-based deployment workflows and cloud resources.</li>
+        </ul>
+        <span class="tag">AWS EC2</span><span class="tag">S3</span><span class="tag">Linux</span><span class="tag">Git</span>
+        <div class="shoot-hint">Click to swing over →</div>
+      </div>
+      <div class="project-card" data-link="https://github.com/pawanpandit1">
+        <div class="date">May 2026</div>
+        <h3>Advanced LRU Cache Simulator</h3>
+        <ul>
+          <li>Implemented an LRU Cache using a HashMap and Doubly Linked List with O(1) operations.</li>
+          <li>Simulated cache eviction and memory optimization scenarios.</li>
+          <li>Applied object-oriented design principles and efficient data structures.</li>
+        </ul>
+        <span class="tag">C++</span><span class="tag">DSA</span>
+        <div class="shoot-hint">Click to swing over →</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="credentials">
+    <h2 class="section-title">Certificates & <span>Achievements</span></h2>
+    <p class="section-sub">Credentials and milestones from my learning journey.</p>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="row">
+          <h4>Oracle Cloud Infrastructure Certified AI Foundations Associate</h4>
+          <span class="meta">Jul 2026</span>
+        </div>
+        <p>Issued by Oracle (2025 certification track).</p>
+      </div>
+      <div class="timeline-item">
+        <div class="row">
+          <h4>Oracle Cloud Infrastructure Certified Foundations Associate</h4>
+          <span class="meta">Jul 2026</span>
+        </div>
+        <p>Issued by Oracle (2025 certification track).</p>
+      </div>
+      <div class="timeline-item">
+        <div class="row">
+          <h4>Naukri Campus NCAT 2026</h4>
+          <span class="meta">May 2026</span>
+        </div>
+        <p>Achieved All India Rank (AIR) 7133 among 4.7+ lakh participants.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="row">
+          <h4>LeetCode</h4>
+          <span class="meta">Ongoing</span>
+        </div>
+        <p>Solved 150+ Data Structures and Algorithms problems using C++.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="row">
+          <h4>CipherSchools DSA Training</h4>
+          <span class="meta">Jun 2026</span>
+        </div>
+        <p>Completed a 70-hour training program on Data Structures and Algorithms.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="education">
+    <h2 class="section-title">My <span>Education</span></h2>
+    <p class="section-sub">Academic background so far.</p>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="row">
+          <h4>Lovely Professional University — B.Tech, CSE</h4>
+          <span class="meta">Aug 2023 – Present</span>
+        </div>
+        <p>Phagwara, Punjab · CGPA: 6.02</p>
+      </div>
+      <div class="timeline-item">
+        <div class="row">
+          <h4>Amar Memo St. George's Prep School — Intermediate (PCM)</h4>
+          <span class="meta">Apr 2020 – Mar 2022</span>
+        </div>
+        <p>Varanasi, Uttar Pradesh · Percentage: 62.6%</p>
+      </div>
+      <div class="timeline-item">
+        <div class="row">
+          <h4>Happy Home English School — Matriculation</h4>
+          <span class="meta">Apr 2018 – Mar 2020</span>
+        </div>
+        <p>Varanasi, Uttar Pradesh · Percentage: 58%</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <h2 class="section-title">Let's <span>Connect</span></h2>
+    <p class="section-sub">Open to DevOps, cloud, and infrastructure roles or collaborations — feel free to reach out.</p>
+    <div class="contact-row">
+      <a class="btn btn-primary" href="mailto:pawanpandeyy99@gmail.com">Email Me</a>
+      <a class="btn btn-outline" href="https://www.linkedin.com/in/pawanpandit1" target="_blank">LinkedIn</a>
+      <a class="btn btn-outline" href="https://github.com/pawanpandit1" target="_blank">GitHub</a>
+      <a class="btn btn-outline" href="tel:+918577085158">+91 85770 85158</a>
+    </div>
+  </section>
+
+  <footer>© 2026 Pawan Pandey — Built with a dark theme and a little web-slinging magic.</footer>
+
+</div>
+
+<script>
+// ---------- Spider web background ----------
+const canvas = document.getElementById('webCanvas');
+const ctx = canvas.getContext('2d');
+let W, H;
+function resize(){
+  W = canvas.width = window.innerWidth;
+  H = canvas.height = window.innerHeight;
+}
+resize();
+window.addEventListener('resize', resize);
+
+let mouse = { x: W/2, y: H/2, active:false };
+window.addEventListener('mousemove', e=>{
+  mouse.x = e.clientX;
+  mouse.y = e.clientY;
+  mouse.active = true;
+});
+window.addEventListener('mouseleave', ()=> mouse.active = false);
+
+const NODE_COUNT = 60;
+let nodes = [];
+for(let i=0;i<NODE_COUNT;i++){
+  nodes.push({
+    x: Math.random()*W,
+    y: Math.random()*H,
+    vx: (Math.random()-0.5)*0.15,
+    vy: (Math.random()-0.5)*0.15
+  });
+}
+
+function draw(){
+  ctx.clearRect(0,0,W,H);
+
+  nodes.forEach(n=>{
+    n.x += n.vx;
+    n.y += n.vy;
+    if(n.x<0||n.x>W) n.vx*=-1;
+    if(n.y<0||n.y>H) n.vy*=-1;
+  });
+
+  for(let i=0;i<nodes.length;i++){
+    for(let j=i+1;j<nodes.length;j++){
+      const dx = nodes[i].x-nodes[j].x;
+      const dy = nodes[i].y-nodes[j].y;
+      const dist = Math.sqrt(dx*dx+dy*dy);
+      if(dist < 150){
+        const opacity = (1 - dist/150) * 0.18;
+        ctx.strokeStyle = `rgba(224,38,58,${opacity})`;
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(nodes[i].x, nodes[i].y);
+        ctx.lineTo(nodes[j].x, nodes[j].y);
+        ctx.stroke();
+      }
+    }
+  }
+
+  if(mouse.active){
+    nodes.forEach(n=>{
+      const dx = n.x-mouse.x;
+      const dy = n.y-mouse.y;
+      const dist = Math.sqrt(dx*dx+dy*dy);
+      if(dist < 220){
+        const opacity = (1 - dist/220) * 0.35;
+        ctx.strokeStyle = `rgba(255,59,78,${opacity})`;
+        ctx.lineWidth = 1.2;
+        ctx.beginPath();
+        ctx.moveTo(n.x, n.y);
+        ctx.lineTo(mouse.x, mouse.y);
+        ctx.stroke();
+      }
+    });
+    ctx.fillStyle = 'rgba(255,59,78,0.6)';
+    ctx.beginPath();
+    ctx.arc(mouse.x, mouse.y, 3, 0, Math.PI*2);
+    ctx.fill();
+  }
+
+  requestAnimationFrame(draw);
+}
+draw();
+
+// ---------- Web-shoot click effect on project cards ----------
+function shootWeb(fromX, fromY, toX, toY, onDone){
+  const dx = toX-fromX, dy = toY-fromY;
+  const dist = Math.sqrt(dx*dx+dy*dy);
+  const angle = Math.atan2(dy,dx) * 180/Math.PI;
+
+  const line = document.createElement('div');
+  line.className = 'web-line';
+  line.style.left = fromX+'px';
+  line.style.top = fromY+'px';
+  line.style.width = '0px';
+  line.style.transform = `rotate(${angle}deg)`;
+  document.body.appendChild(line);
+
+  const dot = document.createElement('div');
+  dot.className = 'web-shot';
+  dot.style.left = fromX+'px';
+  dot.style.top = fromY+'px';
+  document.body.appendChild(dot);
+
+  const duration = 380;
+  const start = performance.now();
+
+  function animate(t){
+    const p = Math.min((t-start)/duration, 1);
+    const eased = 1 - Math.pow(1-p, 3);
+    line.style.width = (dist*eased)+'px';
+    dot.style.left = (fromX + dx*eased)+'px';
+    dot.style.top = (fromY + dy*eased)+'px';
+    if(p<1){
+      requestAnimationFrame(animate);
+    } else {
+      setTimeout(()=>{
+        line.remove();
+        dot.remove();
+        onDone && onDone();
+      }, 120);
+    }
+  }
+  requestAnimationFrame(animate);
+}
+
+document.querySelectorAll('.project-card').forEach(card=>{
+  card.addEventListener('click', (e)=>{
+    const link = card.getAttribute('data-link');
+    const rect = card.getBoundingClientRect();
+    const targetX = rect.left + rect.width/2;
+    const targetY = rect.top + rect.height/2;
+    shootWeb(20, 20, targetX, targetY, ()=>{
+      window.open(link, '_blank');
+    });
+  });
+});
+</script>
+
+</body>
+</html>
